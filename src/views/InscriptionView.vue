@@ -18,7 +18,7 @@ import ImportComp from "@/components/ImportComp.vue";
 import ImportCompText from "@/components/ImportCompText.vue";
 
 export default {
-  name: "ImportView",
+  name: "InscriptionView",
   components: {
     ImportComp,
     ImportCompText,

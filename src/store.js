@@ -1,6 +1,9 @@
 export const store = {
     data: {
-        nbrVm: 0,
-        sequence: []
+
+        ident: "Gabou",
+        mdp: "Gab123",
+        acces: 0
+
     }
 }

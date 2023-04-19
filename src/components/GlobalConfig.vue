@@ -5,7 +5,7 @@
                     <div class="card-header">
                         Configuration Globale
                     </div>
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <div class="form-row">
                             <label for="inputName">Nom</label>
                             <input type="text" class="form-control" id="inputName">

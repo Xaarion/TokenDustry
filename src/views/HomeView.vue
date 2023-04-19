@@ -4,7 +4,7 @@
 
       <GlobalConfig />
       <div class="card mt-3">
-        <vmHeader />
+      
 
       </div>  
     </div>
@@ -18,7 +18,7 @@
 
 
 import GlobalConfig from '@/components/GlobalConfig.vue'
-import vmHeader from '@/components/vmHeader.vue'
+
 
 
 
@@ -26,7 +26,7 @@ export default {
   name: 'HomeView',
   components: {
     GlobalConfig,
-    vmHeader,
+
   }
 }
 </script>

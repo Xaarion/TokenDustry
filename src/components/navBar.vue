@@ -2,16 +2,16 @@
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
             <span class="navbar-brand">VIE-IE-ED</span>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav">z
                     <li class="nav-item">
-                      <router-link to="/" class="nav-link">Accueil</router-link>
+                      <router-link to="/" class="nav-link">Connexion</router-link>
                     </li>
                     <li class="nav-item">
-                      <router-link to="/import" class="nav-link">Import</router-link>
+                      <router-link to="/Inscription" class="nav-link">Inscription</router-link>
 
                     </li>
                     <li class="nav-item">
-                      <router-link to="/Export" class="nav-link">Export</router-link>
+                      <router-link to="/HomeView" class="nav-link">Menu</router-link>
              
                     </li>
                 </ul>

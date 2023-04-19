@@ -1,14 +1,24 @@
 <template>
-    <div class="card-header">
-                        <form class="form-inline">
-                            <div class="form-group mb-2">
-                                <label for="inputExport">Export</label>
-                            </div>
-                            <div class="form-group ml-2 mb-2">
-                                <button class="btn btn-outline-primary" type="button">JSON</button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="">
+             <h1>Connexion</h1>
+             <form>
+               <fieldset>
+                 <div class="form-group">
+                   <label for="nom">Entrez votre Identifiant</label>
+                   <input type="text" class="form-control" id="nom" placeholder="Gabriel" v-model="identif">
+                 </div>
+                 
+                 <div class="form-group">
+                   <label for="email">Entrez votre mot de passe</label>
+                   <input type="email" class="form-control" id="email" placeholder="Gabi123+" v-model="mdp">
+                 </div>
+                 
+                
+              </fieldset>
+              <div style="margin-bottom: 40px;"></div>
+              <button type="button" class="btn btn-primary" @click="connekt">Connexion</button>
+             </form>
+         </div>
 </template> 
 
 <script>
@@ -21,8 +31,25 @@ export default {
   data() {
     return {
       dataStore: store,
+      identif: "",
+      mdp : ""
     };
   },
 
+  methods: {
+    connekt(){
+
+if(this.identif == this.dataStore.data.ident && this.mdp == this.dataStore.data.mdp){
+
+ this.$router.push('/HomeView')
+
+}
+
+else{console.log("Bouh !")}
+     
+
+    },
+
+  }
 }
 </script>

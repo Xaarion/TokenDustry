@@ -1,23 +1,23 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ImportView from '../views/ImportView.vue'
-import ExportView from '../views/ExportView.vue'
+import InscriptionView from '../views/InscriptionView.vue'
+import ConnexionView from '../views/ConnexionView.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '/HomeView',
+    name: 'HomeView',
     component: HomeView
   },
   {
-    path: '/import',
-    name: 'import',
-    component: ImportView
+    path: '/Inscription',
+    name: 'Inscription',
+    component: InscriptionView
   },
   {
-    path: '/Export',
-    name: 'Export',
-    component: ExportView
+    path: '/',
+    name: 'Connexion',
+    component: ConnexionView
   },
   {
     path: '/about',
@@ -30,7 +30,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 
