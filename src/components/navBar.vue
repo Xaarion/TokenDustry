@@ -11,7 +11,7 @@
 
                     </li>
                     <li class="nav-item">
-                      <router-link to="/HomeView" class="nav-link">Menu</router-link>
+                      <router-link to="/HomeView" class="nav-link" v-if=" this.dataStore.data.acces == 1">Menu</router-link>
              
                     </li>
                 </ul>
@@ -57,4 +57,24 @@
  }
 }
     </style>
+
+    <script>
+
+    import { store } from "../store.js";
+    
+    export default {
+      name: "navBar",
+      
+    
+      data() {
+        return {
+          dataStore: store,
+        };
+      },
+ 
+    };
+    </script>
+    
+    
+    
   

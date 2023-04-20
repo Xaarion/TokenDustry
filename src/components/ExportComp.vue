@@ -41,6 +41,8 @@ export default {
 
 if(this.identif == this.dataStore.data.ident && this.mdp == this.dataStore.data.mdp){
 
+  this.dataStore.data.acces = 1;
+
  this.$router.push('/HomeView')
 
 }
