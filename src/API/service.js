@@ -1,12 +1,12 @@
-const express = require('express');
-const mysql = require('mysql');
+const express = require('express'), mysql = require('mysql'), port = (process.env.PORT || process.env.ALWAYSDATA_HTTPD_PORT || 8100), cors = require('cors');
+
 
 // Créer une connexion à la base de données
 const connection = mysql.createConnection({
-  host: 'mysql-bellone.alwaysdata.net',
-  user: 'bellone_admin',
+  host: 'mysql-apitokendustry.alwaysdata.net',
+  user: '310418_badmin',
   password: 'StuckSilver2ForEver',
-  database: 'bellone_tokendustry'
+  database: 'apitokendustry_db'
 });
 // Créer une application Express
 const app = express();
@@ -29,9 +29,11 @@ app.get('/users', (req, res) => {
       res.json(results);
     });
   });
+
+  app.use(cors())
   
 
 // Démarrer le serveur sur le port 3000
-app.listen(3000, () => {
-  console.log('Serveur démarré sur le port 3000');
+app.listen(port, () => {
+  console.log('Serveur démarré sur le port de ALWAYSDATA' + port);
 });

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import InscriptionView from '../views/InscriptionView.vue'
 import ConnexionView from '../views/ConnexionView.vue'
 
+
 const routes = [
   {
     path: '/HomeView',

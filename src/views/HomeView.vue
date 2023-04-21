@@ -1,14 +1,16 @@
 <template>
-  <div class="home">
-    <div class="contailer-fluid">
 
-      <GlobalConfig />
-      <div class="card mt-3">
-      
+<button class="btn trash-fill" type="button" @click="bringData()"></button>
+<button type="button" @click="showData()">AHHHH</button>
 
-      </div>  
-    </div>
+<div>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{ user.name }} - {{ user.email }}
+      </li>
+    </ul>
   </div>
+
 </template>
 
 <script>
@@ -17,38 +19,47 @@
 
 
 
-import GlobalConfig from '@/components/GlobalConfig.vue'
+
 import { store } from "../store.js";
+import axios from 'axios'
 
 
 
 export default {
   name: 'HomeView',
-  components: {
-    GlobalConfig,
-
-  },
+ 
 
   data() {
     return {
       dataStore: store,
+      users: [],
     };
   },
 
   mounted() {
 
 //verificationConnexion()
-if(this.dataStore.data.acces != 1) {
+// if(this.dataStore.data.acces != 1) {
 
-this.$router.push('/')
+// this.$router.push('/')
+// }
 
-}
 
 },
 
   methods: {
 
-    //verificationConnexion(){}
+    bringData(){
+
+axios.get('https://apitokendustry.alwaysdata.net/users').then(response => {this.users = response})
+
+      
+
+    },
+
+    showData(){
+console.log(this.users)
+    }
 
 },
 
