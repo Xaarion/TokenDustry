@@ -4,14 +4,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">z
                     <li class="nav-item">
-                      <router-link to="/" class="nav-link">Connexion</router-link>
+                      <router-link to="/" class="nav-link" v-if="dataStore.data.acces !== 1 ">Connexion</router-link>
                     </li>
                     <li class="nav-item">
                       <router-link to="/Inscription" class="nav-link">Inscription</router-link>
 
                     </li>
                     <li class="nav-item">
-                      <router-link to="/HomeView" class="nav-link" >Menu</router-link>
+                      <router-link to="/HomeView" class="nav-link" v-if="dataStore.data.acces == 1 ">Menu</router-link>
              
                     </li>
                 </ul>

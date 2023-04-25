@@ -24,6 +24,7 @@
 <script>
 
 import { store } from "../store.js";
+import axios from 'axios'
 
 export default {
   name: "ExportComp",
@@ -32,16 +33,25 @@ export default {
     return {
       dataStore: store,
       identif: "",
-      mdp : ""
+      mdp : "",
+      valid: 0,
     };
   },
 
   methods: {
-    connekt(){
+    async connekt(){
 
-if(this.identif == this.dataStore.data.ident && this.mdp == this.dataStore.data.mdp){
+
+      await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ this.identif + '&mdp=' + this.mdp).then(response => {this.valid = response.data[0].compteur})
+
+
+console.log(this.valid);
+
+if(this.valid == 1){
 
   this.dataStore.data.acces = 1;
+  
+  
 
  this.$router.push('/HomeView')
 

@@ -3,7 +3,7 @@
     <div class="row">
     <div class="col-3"></div>    
     <div class="col-6">
-       <ExportComp/>
+       <ConnexionForm/>
     </div>
     <div class="col-3"></div>
 </div>
@@ -15,17 +15,31 @@
 
 
 
-import ExportComp from '@/components/ExportComp.vue'
-
+import ConnexionForm from '@/components/ConnexionForm.vue'
+import { store } from "../store.js";
 
 
 
 export default {
     name: 'ConnexionView',
+    
     components: {
-        ExportComp,
+        ConnexionForm,
 
-    }
+    },
+
+    data(){
+
+        return {
+        dataStore: store,
+
+    };
+    },
+    
+
+    mounted() {
+if(this.dataStore.data.acces != 0) {this.$router.push('/HomeView')}
+},
 }
 </script>
       

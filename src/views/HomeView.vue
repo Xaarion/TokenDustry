@@ -1,7 +1,7 @@
 <template>
 
 <button class="btn trash-fill" type="button" @click="bringData()"></button>
-<button type="button" @click="showData()">AHHHH</button>
+<button type="button" @click="showData()">show datas</button>
 
 <div>
     <ul>
@@ -37,21 +37,14 @@ export default {
   },
 
   mounted() {
-
-//verificationConnexion()
-// if(this.dataStore.data.acces != 1) {
-
-// this.$router.push('/')
-// }
-
-
+if(this.dataStore.data.acces != 1) {this.$router.push('/')}
 },
 
   methods: {
 
     bringData(){
 
-axios.get('https://apitokendustry.alwaysdata.net/users').then(response => {this.users = response})
+axios.get('https://apitokendustry.alwaysdata.net/users').then(response => {this.users = response.data[0].id})
 
       
 

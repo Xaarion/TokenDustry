@@ -10,14 +10,16 @@ const connection = mysql.createConnection({
 });
 // Créer une application Express
 const app = express();
+
+app.use(cors({origin:'*'}));
 // Endpoint pour récupérer tous les utilisateurs
 app.get('/users', (req, res) => {
   // Exécuter la requête SQL pour récupérer tous les utilisateurs
   const sql = 'SELECT * FROM Utilisateurs;';
   connection.query(sql, (error, results) => {
     if (error) throw error;
-    res.json(results);
-  });
+      res.json(results);
+    });
 });
 
 
@@ -30,7 +32,7 @@ app.get('/users', (req, res) => {
     });
   });
 
-  app.use(cors())
+  
   
 
 // Démarrer le serveur sur le port 3000
