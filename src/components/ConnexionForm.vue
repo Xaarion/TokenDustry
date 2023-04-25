@@ -9,8 +9,8 @@
                  </div>
                  
                  <div class="form-group">
-                   <label for="email">Entrez votre mot de passe</label>
-                   <input type="email" class="form-control" id="email" placeholder="Gabi123+" v-model="mdp">
+                   <label for="mdp">Entrez votre mot de passe</label>
+                   <input type="password" class="form-control" id="mdp" placeholder="Gabi123+" v-model="mdp">
                  </div>
                  
                 

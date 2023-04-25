@@ -1,32 +1,32 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col mt-3">
-        <div class="card">
-          <ImportComp v-bind:jsonFile="jsonToSend"/>
-          <ImportCompText @jsonFile="recoisJson" />
-        </div>
-      </div>
+  <body>
+  <div class="row">
+    <div class="col-3"></div>    
+    <div class="col-6">
+    <IncsriptionForm/>
     </div>
+    <div class="col-3"></div>
   </div>
+</body>
+       
 </template>
   
   <script>
 // @ is an alias to /src
 
-import ImportComp from "@/components/ImportComp.vue";
-import ImportCompText from "@/components/ImportCompText.vue";
+
+import IncsriptionForm from "@/components/IncsriptionForm.vue";
+import { store } from "../store.js";
 
 export default {
   name: "InscriptionView",
   components: {
-    ImportComp,
-    ImportCompText,
+    IncsriptionForm,
   },
 
   data() {
     return {
-      jsonToSend: "",
+      dataStore: store,
     };
   },
 
