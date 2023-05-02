@@ -49,9 +49,9 @@ export default {
 
   methods: {
 
-    insc(){
+   async insc(){
 
-      axios.post('https://monsite.com/insc', {
+      await axios.post('https://apitokendustry.alwaysdata.net/insc', {
         identif: this.identif,
       mdp: this.mdp,
       pseudo: this.pseudo,
@@ -63,6 +63,9 @@ export default {
 .catch(error => {
   console.error(error);
 });
+
+alert("Compte crée avec succès !");
+this.$router.push('/')
 
     }
  

@@ -1,4 +1,5 @@
 <template>
+
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
             <span class="navbar-brand">VIE-IE-ED</span>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -7,7 +8,7 @@
                       <router-link to="/" class="nav-link" v-if="dataStore.data.acces !== 1 ">Connexion</router-link>
                     </li>
                     <li class="nav-item">
-                      <router-link to="/Inscription" class="nav-link">Inscription</router-link>
+                      <router-link to="/Inscription" class="nav-link" v-if="dataStore.data.acces !== 1 ">Inscription</router-link>
 
                     </li>
                     <li class="nav-item">
@@ -17,6 +18,7 @@
                 </ul>
             </div>
         </nav>
+
   </template>
   <style>
 
