@@ -5,16 +5,32 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">z
                     <li class="nav-item">
-                      <router-link to="/" class="nav-link" v-if="dataStore.data.acces !== 1 ">Connexion</router-link>
+                      <router-link to="/" class="nav-link" v-if="dataStore.data.acces < 1 ">Connexion</router-link>
                     </li>
                     <li class="nav-item">
-                      <router-link to="/Inscription" class="nav-link" v-if="dataStore.data.acces !== 1 ">Inscription</router-link>
+                      <router-link to="/Inscription" class="nav-link" v-if="dataStore.data.acces < 1 ">Inscription</router-link>
 
                     </li>
+
                     <li class="nav-item">
-                      <router-link to="/HomeView" class="nav-link" v-if="dataStore.data.acces == 1 ">Menu</router-link>
+                      <router-link to="/HomeView" class="nav-link" v-if="dataStore.data.acces >= 1 ">Menu</router-link>
              
                     </li>
+                    
+                    <li class="nav-item">
+                      <router-link to="/CreationOffre" class="nav-link" v-if="dataStore.data.acces >= 1 ">CreationOffre</router-link>
+             
+                    </li>
+
+                    <li class="nav-item">
+                      <router-link to="/BackOfficeCrypto" class="nav-link" v-if="dataStore.data.acces >= 3 ">BackOfficeCrypto</router-link>
+             
+                    </li>
+                    <li class="nav-item">
+                      <router-link to="/BackOfficeCreationCrypto" class="nav-link" v-if="dataStore.data.acces >= 3 ">BackOfficeCreationCrypto</router-link>
+             
+                    </li>
+                    
                 </ul>
             </div>
         </nav>

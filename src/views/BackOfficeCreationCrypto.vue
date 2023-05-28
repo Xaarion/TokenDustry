@@ -1,34 +1,27 @@
 <template>
-<div class="row" style="margin-right: 0 !important">
-    <div class="col-2" style="height: 800px; background-color: grey"></div>
-
-    <div class="col-10" style="padding-right: 0 !important">
-
-      <div v-for="currentcrypto in cryptos" :key="currentcrypto.id">
-
-        <div class="row" style="margin-right: 0 !important">
-
-          <CrytpoModif :crypto=currentcrypto></CrytpoModif>
-            
-        </div>
-        
-      </div>
-
+  <body>
+  <div class="row">
+    <div class="col-3"></div>    
+    <div class="col-6">
+    <CrytpoCreationForm/>
     </div>
+    <div class="col-3"></div>
   </div>
+</body>
+       
 </template>
           
     <script>
 // @ is an alias to /src
-import CrytpoModif from "@/components/CrytpoModif.vue";
+import CrytpoCreationForm from "@/components/CrytpoCreationForm.vue";
 import { store } from "../store.js";
 import axios from "axios";
-import { NULL } from 'mysql/lib/protocol/constants/types.js';
+
 
 export default {
-  name: "BackOfficeCrypto",
+  name: "BackOfficeCreationCrypto",
   components: {
-    CrytpoModif,
+    CrytpoCreationForm,
   },
   data() {
     return {
@@ -38,12 +31,11 @@ export default {
     };
   },
 
-mounted() {
-
-  this.verifAdmin();
-  this.getCrypto();
-
-},
+  mounted() {
+    if(this.dataStore.data.acces < 3) {this.$router.push('/HomeView')}
+    this.getCrypto();
+    this.verifAdmin();
+  },
 
   methods: {
     async getCrypto() {
@@ -57,17 +49,17 @@ mounted() {
     },
 
     async verifAdmin() {
+       
 
-      if(this.dataStore.data.ident != NULL && this.dataStore.data.mdp != NULL){
       await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ this.dataStore.data.ident + '&mdp=' + this.dataStore.data.mdp).then(response => {this.acces = response.data[0].acces})
 
  
 
       if(this.acces < 3){
-        this.$router.push('/HomeView')
+        this.$router.push('/')
 
       }
-      }
+      
     },
   },
 };

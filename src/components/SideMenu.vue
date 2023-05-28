@@ -1,24 +1,5 @@
 <template>
-    <div class="">
-             <h1>Connexion</h1>
-             <form>
-               <fieldset>
-                 <div class="form-group">
-                   <label for="nom">Entrez votre Identifiant</label>
-                   <input type="text" class="form-control" id="nom" placeholder="Gabriel" v-model="identif">
-                 </div>
-
-                 <div class="form-group">
-                   <label for="mdp">Entrez votre mot de passe</label>
-                   <input type="password" class="form-control" id="mdp" placeholder="Gabi123+" v-model="mdp">
-                 </div>
-                 
-                
-              </fieldset>
-              <div style="margin-bottom: 40px;"></div>
-              <button type="button" class="btn btn-primary" @click="connekt">Connexion</button>
-             </form>
-         </div>
+    SideMenu
 </template> 
 
 <script>

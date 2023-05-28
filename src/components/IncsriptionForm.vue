@@ -25,7 +25,7 @@
                 
               </fieldset>
               <div style="margin-bottom: 40px;"></div>
-              <button type="button" class="btn btn-primary" @click="insc">Connexion</button>
+              <button type="button" class="btn btn-primary" @click="insc">Incription</button>
              </form>
          </div>
 </template>
@@ -44,6 +44,7 @@ export default {
       mdp: "",
       pseudo: "",
       mail: "",
+      compteExiste : 0,
     };
   },
 
@@ -51,8 +52,21 @@ export default {
 
    async insc(){
 
+    this.compteExiste = 0
+
+    await axios.get('https://apitokendustry.alwaysdata.net/antiDupliCompte?identif='+ this.identif + '&mail=' + this.mail).then(
+      response => {this.compteExiste = response.data[0].compteur
+      console.log(response.data[0].compteur)})
+
+
+if (this.compteExiste < 1){
+
+
+
+  
+
       await axios.post('https://apitokendustry.alwaysdata.net/insc', {
-        identif: this.identif,
+      identif: this.identif,
       mdp: this.mdp,
       pseudo: this.pseudo,
       mail: this.mail
@@ -66,8 +80,16 @@ export default {
 
 alert("Compte crée avec succès !");
 this.$router.push('/')
+}
 
-    }
+else {
+
+  alert("L'identifiant ou le mail entré est déja utilisé sur un autre compte.");
+
+}
+
+
+    },
  
 },
 }

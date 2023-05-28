@@ -39,8 +39,9 @@ export default {
   },
 
   mounted() {
-    // if(this.dataStore.data.acces != 1) {this.$router.push('/')}
-    this.getCrypto();
+    if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getCrypto();}
+    
+
   },
 
   methods: {
@@ -51,8 +52,10 @@ export default {
           this.cryptos = response.data;
         });
 
-      console.log(this.crypto);
+      console.log(this.cryptos);
     },
+
+  
   },
 };
 </script>

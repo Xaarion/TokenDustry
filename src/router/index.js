@@ -2,13 +2,30 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import InscriptionView from '../views/InscriptionView.vue'
 import ConnexionView from '../views/ConnexionView.vue'
-
+import BackOfficeCrypto from '../views/BackOfficeCrypto.vue'
+import BackOfficeCreationCrypto from '../views/BackOfficeCreationCrypto.vue'
+import CreationOffre from '../views/CreationOffre.vue'
 
 const routes = [
+  {
+    path: '/BackOfficeCrypto',
+    name: 'BackOfficeCrypto',
+    component: BackOfficeCrypto
+  },
   {
     path: '/HomeView',
     name: 'HomeView',
     component: HomeView
+  },
+  {
+    path: '/BackOfficeCreationCrypto',
+    name: 'BackOfficeCreationCrypto',
+    component: BackOfficeCreationCrypto
+  },
+  {
+    path: '/CreationOffre',
+    name: 'CreationOffre',
+    component: CreationOffre
   },
   {
     path: '/Inscription',

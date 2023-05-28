@@ -38,7 +38,7 @@ export default {
     
 
     mounted() {
-if(this.dataStore.data.acces != 0) {this.$router.push('/HomeView')}
+// if(this.dataStore.data.acces != 0) {this.$router.push('/HomeView')}
 },
 }
 </script>

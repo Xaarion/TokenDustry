@@ -1,9 +1,8 @@
 export const store = {
     data: {
-
-        ident: "Gabou",
-        mdp: "Gab123",
+        id: 0,
+        ident: "ident",
+        mdp: "fiant",
         acces: 0
-
     }
 }
