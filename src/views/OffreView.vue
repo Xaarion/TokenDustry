@@ -1,5 +1,5 @@
 <template>
-<div class="row" style="margin-right: 0 !important">
+  <div class="row" style="margin-right: 0 !important">
     <div class="col-2" style="height: 800px; background-color: grey"></div>
 
     <div class="col-10" style="padding-right: 0 !important">
@@ -8,7 +8,7 @@
 
         <div class="row" style="margin-right: 0 !important">
 
-          <CrytpoModif :crypto=currentcrypto></CrytpoModif>
+          <CryptoLineInfo :crypto=currentcrypto></CryptoLineInfo>
             
         </div>
         
@@ -17,33 +17,32 @@
     </div>
   </div>
 </template>
-          
-    <script>
+
+<script>
 // @ is an alias to /src
-import CrytpoModif from "@/components/CrytpoModif.vue";
+
+import CryptoLineInfo from "@/components/CryptoLineInfo.vue";
 import { store } from "../store.js";
 import axios from "axios";
 
-
 export default {
-  name: "BackOfficeCrypto",
+  name: "OffreView",
   components: {
-    CrytpoModif,
+    CryptoLineInfo,
   },
+
   data() {
     return {
       dataStore: store,
       cryptos: [],
-      acces:0,
     };
   },
 
-mounted() {
+  mounted() {
+    if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getCrypto();}
+    
 
-  this.verifAdmin();
-  this.getCrypto();
-
-},
+  },
 
   methods: {
     async getCrypto() {
@@ -53,25 +52,10 @@ mounted() {
           this.cryptos = response.data;
         });
 
-
+      console.log(this.cryptos);
     },
 
-    async verifAdmin() {
-
-      console.log("bouh")
-            console.log(this.acces)
   
-      await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ this.dataStore.data.ident + '&mdp=' + this.dataStore.data.mdp).then(response => {this.acces = response.data[0].acces})
-
-      console.log(this.acces)
-
-      if( this.acces < 3){
-        this.$router.push('/HomeView')
-
-      }
-      
-    },
   },
-}
+};
 </script>
-          

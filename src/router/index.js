@@ -5,8 +5,14 @@ import ConnexionView from '../views/ConnexionView.vue'
 import BackOfficeCrypto from '../views/BackOfficeCrypto.vue'
 import BackOfficeCreationCrypto from '../views/BackOfficeCreationCrypto.vue'
 import CreationOffre from '../views/CreationOffre.vue'
+import OffreView from '../views/OffreView.vue'
 
 const routes = [
+  {
+    path: '/OffreView',
+    name: 'OffreView',
+    component: OffreView
+  },
   {
     path: '/BackOfficeCrypto',
     name: 'BackOfficeCrypto',

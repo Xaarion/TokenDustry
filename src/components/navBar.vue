@@ -23,6 +23,11 @@
                     </li>
 
                     <li class="nav-item">
+                      <router-link to="/OffreView" class="nav-link" v-if="dataStore.data.acces >= 1 ">Offres</router-link>
+             
+                    </li>
+
+                    <li class="nav-item">
                       <router-link to="/BackOfficeCrypto" class="nav-link" v-if="dataStore.data.acces >= 3 ">BackOfficeCrypto</router-link>
              
                     </li>

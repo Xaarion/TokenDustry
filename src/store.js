@@ -1,7 +1,7 @@
 export const store = {
     data: {
         id: 0,
-        ident: "ident",
+        ident: "identi",
         mdp: "fiant",
         acces: 0
     }

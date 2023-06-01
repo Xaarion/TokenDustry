@@ -15,8 +15,8 @@
                  </div>       
                  
                  <div class="form-group">
-                   <label for="pseudo">Entrez le prix unitaire</label>
-                   <input type="number" class="form-control" id="pseudo" placeholder="P.U" v-model="prixUnitaire">
+                   <label for="pseudo">Entrez le prix</label>
+                   <input type="number" class="form-control" id="pseudo" placeholder="prix" v-model="prixUnitaire">
                  </div>       
                 
               </fieldset>
@@ -108,6 +108,7 @@ await axios.post('https://apitokendustry.alwaysdata.net/createOffre', {
 });
 
 alert("Offre crée avec succès !");
+this.$router.push('/')
 }
 
 
