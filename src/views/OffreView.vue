@@ -4,11 +4,11 @@
 
     <div class="col-10" style="padding-right: 0 !important">
 
-      <div v-for="currentcrypto in cryptos" :key="currentcrypto.id">
+      <div v-for="currentoffre in offres" :key="currentoffre.id">
 
         <div class="row" style="margin-right: 0 !important">
 
-          <CryptoLineInfo :crypto=currentcrypto></CryptoLineInfo>
+          <OffreInfoLine :offre=currentoffre></OffreInfoLine>
             
         </div>
         
@@ -21,38 +21,38 @@
 <script>
 // @ is an alias to /src
 
-import CryptoLineInfo from "@/components/CryptoLineInfo.vue";
+import OffreInfoLine from "@/components/OffreInfoLine.vue";
 import { store } from "../store.js";
 import axios from "axios";
 
 export default {
   name: "OffreView",
   components: {
-    CryptoLineInfo,
+    OffreInfoLine,
   },
 
   data() {
     return {
       dataStore: store,
-      cryptos: [],
+      offres: [],
     };
   },
 
   mounted() {
-    if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getCrypto();}
+    if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getOffres();}
     
 
   },
 
   methods: {
-    async getCrypto() {
+    async getOffres() {
       await axios
-        .get("https://apitokendustry.alwaysdata.net/crypto")
+        .get("https://apitokendustry.alwaysdata.net/offres")
         .then((response) => {
-          this.cryptos = response.data;
+          this.offres = response.data;
         });
 
-      console.log(this.cryptos);
+      console.log(this.offres);
     },
 
   
