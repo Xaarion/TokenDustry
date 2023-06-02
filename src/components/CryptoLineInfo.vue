@@ -1,6 +1,6 @@
 <template>
   <div class="row" style="height: 80px;">
-<div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Nom : {{ crypto.libelle }}</div>
+<div class="col-3" style="font-size:30px; line-height: 80px; font-weight: bold;">Nom : {{ crypto.libelle }}</div>
 <div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Valeur : {{crypto.valeur}}</div>
 <div class="col-3" style="font-size:30px; line-height: 80px; font-weight: bold;">Vous en possedez : {{montant}}</div>
 <div class="col-3" style="font-size:30px; line-height: 80px; font-weight: bold;">Créateur : {{createur}}</div>

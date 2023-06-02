@@ -1,9 +1,9 @@
 <template>
   <div class="row" style="height: 80px;">
-<div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Crypto : {{ crypto }}</div>
+<div class="col-3" style="font-size:30px; line-height: 80px; font-weight: bold;">Crypto : {{ crypto }}</div>
 <div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Combien : {{ offre.montant }}</div>
 <div class="col-2" style="font-size:30px; line-height: 80px; font-weight: bold;">Prix : {{ offre.prix }}</div>
-<div class="col-2" style="font-size:30px; line-height: 80px; font-weight: bold;">Vendeur : {{ vendeur }}</div>
+<div class="col-2" style="font-size:20px; line-height: 80px; font-weight: bold;">Vendeur : {{ vendeur }}</div>
 <div class="col-2" style="font-size:30px; line-height: 80px; font-weight: bold;"><button class="btn btn-primary" @click="achat">BUY</button></div>
   </div>
   <div class="row" style="height: 2px; background-color: red; margin-left: 0 !important;"></div>
