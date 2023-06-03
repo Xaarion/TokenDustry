@@ -45,6 +45,7 @@ export default {
       pseudo: "",
       mail: "",
       compteExiste : 0,
+      id:0,
     };
   },
 
@@ -62,9 +63,6 @@ export default {
 if (this.compteExiste < 1){
 
 
-
-  
-
       await axios.post('https://apitokendustry.alwaysdata.net/insc', {
       identif: this.identif,
       mdp: this.mdp,
@@ -77,6 +75,28 @@ if (this.compteExiste < 1){
 .catch(error => {
   console.error(error);
 });
+
+
+await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ 
+      this.identif+'&mdp='+this.mdp).then(
+        response => {
+          this.id = response.data[0].id
+        })
+
+
+await axios.post('https://apitokendustry.alwaysdata.net/changeBalance', {
+      id: this.id,
+      credits: 1000
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+
+
+
 
 alert("Compte crée avec succès !");
 this.$router.push('/')

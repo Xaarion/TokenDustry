@@ -56,8 +56,15 @@ if(this.valid == 1){
   console.log("Et son Id ?  --->  " + this.dataStore.data.id);
 
 console.log("Quel est son niveau d'accès ?  --->  " + this.acces);
+
+
+await axios.get('https://apitokendustry.alwaysdata.net/credits?id='+ this.dataStore.data.id).then(response => {this.dataStore.data.credits = response.data[0].credits})
+
+
   
 this.dataStore.data.acces = this.acces
+
+
 
  this.$router.push('/HomeView')
 

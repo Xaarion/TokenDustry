@@ -35,9 +35,18 @@
                       <router-link to="/BackOfficeCreationCrypto" class="nav-link" v-if="dataStore.data.acces >= 3 ">BackOfficeCreationCrypto</router-link>
              
                     </li>
+
+                    
                     
                 </ul>
-            </div>
+               
+            </div> 
+            
+            <span class="navbar-text" style="margin-right: 50px;">
+                      
+                      Crédits : {{ dataStore.data.credits }}
+             
+                    </span>
         </nav>
         
   </template>

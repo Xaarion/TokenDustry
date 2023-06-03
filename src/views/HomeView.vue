@@ -41,6 +41,7 @@ export default {
   mounted() {
     if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getCrypto();}
     
+    //console.log(this.dataStore.data.credits)
 
   },
 
@@ -53,6 +54,8 @@ export default {
         });
 
       console.log(this.cryptos);
+
+
     },
 
   

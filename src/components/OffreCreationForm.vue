@@ -54,6 +54,7 @@ export default {
     this.combienCrypto =0;
     this.possede = 0;
     this.cryptoExiste = 0;
+    
     await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ 
       this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp).then(
         response => {
