@@ -55,11 +55,11 @@ export default {
     this.possede = 0;
     this.cryptoExiste = 0;
     
-    await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ 
-      this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp).then(
-        response => {
+ const response = await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ 
+      this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp)
+   
           this.id = response.data[0].id
-        })
+
 
 
         await axios.get('https://apitokendustry.alwaysdata.net/cryptoIdForLib?lib='+this.cryptoLibelle).then(
@@ -109,7 +109,7 @@ await axios.post('https://apitokendustry.alwaysdata.net/createOffre', {
 });
 
 alert("Offre crée avec succès !");
-this.$router.push('/')
+this.$router.push('/OffreView')
 }
 
 

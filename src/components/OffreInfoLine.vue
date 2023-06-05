@@ -63,7 +63,7 @@ export default {
       this.cryptoAcheteur= 0;
       this.assez = 1;
 
-      await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ 
+      await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ 
       this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp).then(
         response => {
           this.id = response.data[0].id

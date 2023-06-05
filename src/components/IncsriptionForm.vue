@@ -10,17 +10,17 @@
                  
                  <div class="form-group">
                    <label for="password">Entrez un mot de passe</label>
-                   <input type="password" class="form-control" id="email" placeholder="Gabi123+" v-model="mdp">
+                   <input type="password" class="form-control" id="email" placeholder="Bokoblin256+" v-model="mdp">
                  </div>
 
                  <div class="form-group">
                    <label for="pseudo">Entrez un nom pour votre compte (C'est celui ci que les gens verronts)</label>
-                   <input type="text" class="form-control" id="pseudo" placeholder="SuperGabou" v-model="pseudo">
+                   <input type="text" class="form-control" id="pseudo" placeholder="Gabi" v-model="pseudo">
                  </div>       
                  
                  <div class="form-group">
                    <label for="email">Entrez votre adresse mail</label>
-                   <input type="email" class="form-control" id="email" placeholder="Gabou@gmail.com+" v-model="mail">
+                   <input type="email" class="form-control" id="email" placeholder="Gabriel@gmail.com+" v-model="mail">
                  </div>       
                 
               </fieldset>
@@ -55,45 +55,40 @@ export default {
 
     this.compteExiste = 0
 
-    await axios.get('https://apitokendustry.alwaysdata.net/antiDupliCompte?identif='+ this.identif + '&mail=' + this.mail).then(
-      response => {this.compteExiste = response.data[0].compteur
-      console.log(response.data[0].compteur)})
+    const response = await axios.get('https://apitokendustry.alwaysdata.net/antiDupliCompte?identif='+ this.identif + '&mail=' + this.mail)
+      this.compteExiste = response.data[0].compteur
+      console.log(response.data[0].compteur)
 
 
 if (this.compteExiste < 1){
 
 
-      await axios.post('https://apitokendustry.alwaysdata.net/insc', {
+      const response2 = await axios.post('https://apitokendustry.alwaysdata.net/insc', {
       identif: this.identif,
       mdp: this.mdp,
       pseudo: this.pseudo,
       mail: this.mail
 })
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error(error);
-});
+
+  console.log(response2.data);
 
 
-await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ 
-      this.identif+'&mdp='+this.mdp).then(
-        response => {
-          this.id = response.data[0].id
-        })
 
 
-await axios.post('https://apitokendustry.alwaysdata.net/changeBalance', {
+  const response3 = await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ 
+      this.identif+'&mdp='+this.mdp)
+
+          this.id = response3.data[0].id
+
+
+
+        const response4 = await axios.post('https://apitokendustry.alwaysdata.net/changeBalance', {
       id: this.id,
       credits: 1000
 })
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error(error);
-});
+
+  console.log(response4.data);
+
 
 
 
