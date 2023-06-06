@@ -1,7 +1,7 @@
 <template>
 
     <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-            <span class="navbar-brand">VIE-IE-ED</span>
+            <span class="navbar-brand">Tokendustry</span>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">z
                     <li class="nav-item">
