@@ -83,7 +83,7 @@ await axios.post('https://apitokendustry.alwaysdata.net/createCrypto', {
 });
 
 alert("Crypto crée avec succès !");
-this.$router.push('/')
+this.$router.push('/HomeView')
 }
 
 else {

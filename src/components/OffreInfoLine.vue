@@ -179,9 +179,19 @@ else {
 }
 
 
+await axios.delete("https://apitokendustry.alwaysdata.net/deleteOffre/"+this.offre.id)
+        .then((response) => {
+          this.cryptos = response.data;
+        });
 
+
+        this.$emit('achat-effectue');
 
 alert("Achat effectué avec succès !");
+
+
+
+
   }
 
 }}
@@ -191,7 +201,7 @@ alert("Achat effectué avec succès !");
       await axios.get('https://apitokendustry.alwaysdata.net/userForId?idUser='+ 
       this.offre.vendeur).then(
         response => {
-          this.vendeur = response.data[0].pseudonyme
+          this.vendeur = response.data[0].identifiant
         })
       },
 

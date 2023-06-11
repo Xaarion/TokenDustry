@@ -61,7 +61,7 @@ mounted() {
       console.log("bouh")
             console.log(this.acces)
   
-      await axios.get('https://apitokendustry.alwaysdata.net/connectID?identif='+ this.dataStore.data.ident + '&mdp=' + this.dataStore.data.mdp).then(response => {this.acces = response.data[0].acces})
+      await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ this.dataStore.data.ident + '&mdp=' + this.dataStore.data.mdp).then(response => {this.acces = response.data[0].acces})
 
       console.log(this.acces)
 

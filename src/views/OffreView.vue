@@ -8,7 +8,7 @@
 
         <div class="row" style="margin-right: 0 !important">
 
-          <OffreInfoLine :offre=currentoffre></OffreInfoLine>
+          <OffreInfoLine :offre=currentoffre @achat-effectue="getOffres"></OffreInfoLine>
             
         </div>
         
@@ -53,7 +53,17 @@ export default {
         });
 
       console.log(this.offres);
+
+      const resp = await axios
+          .get("https://apitokendustry.alwaysdata.net/credits?id=" + this.dataStore.data.id)
+          this.dataStore.data.credits = resp.data[0].credits;
+
+
+
+
     },
+
+
 
   
   },

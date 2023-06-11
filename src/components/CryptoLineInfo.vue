@@ -59,7 +59,7 @@ export default {
       await axios.get('https://apitokendustry.alwaysdata.net/userForId?idUser='+ 
       this.crypto.createur).then(
         response => {
-          this.createur = response.data[0].pseudonyme
+          this.createur = response.data[0].identifiant
         })
       }
 
