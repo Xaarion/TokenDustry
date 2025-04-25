@@ -1,45 +1,25 @@
 <template>
-<body>
-    <div class="row">
-    <div class="col-3"></div>    
-    <div class="col-6">
-       <ConnexionForm/>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+          <ConnexionForm />
+        </div>
+      </div>
     </div>
-    <div class="col-3"></div>
-</div>
-</body>
-</template>
-      
-<script>
-// @ is an alias to /src
-
-
-
-import ConnexionForm from '@/components/ConnexionForm.vue'
-import { store } from "../store.js";
-
-
-
-export default {
-    name: 'ConnexionView',
-    
-    components: {
-        ConnexionForm,
-
-    },
-
-    data(){
-
-        return {
-        dataStore: store,
-
-    };
-    },
-    
-
-    mounted() {
-// if(this.dataStore.data.acces != 0) {this.$router.push('/HomeView')}
-},
-}
-</script>
-      
+  </template>
+  
+  <script setup>
+  import ConnexionForm from '@/components/ConnexionForm.vue'
+  import { store } from '../store.js'
+  import { onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
+  
+  const router = useRouter()
+  
+  onMounted(() => {
+    if (store.data.acces !== 0) {
+      router.push('/HomeView')
+    }
+  })
+  </script>
+  
