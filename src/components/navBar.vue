@@ -3,10 +3,10 @@
     <span class="navbar-brand">Tokendustry</span>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item" v-if="user.acces < 1">
+        <li class="nav-item" v-if="user.acces <= 0">
           <router-link to="/" class="nav-link">Connexion</router-link>
         </li>
-        <li class="nav-item" v-if="user.acces < 1">
+        <li class="nav-item" v-if="user.acces <= 0">
           <router-link to="/Inscription" class="nav-link">Inscription</router-link>
         </li>
         <li class="nav-item" v-if="user.acces >= 1">
@@ -26,18 +26,44 @@
         </li>
       </ul>
     </div>
-    <span class="navbar-text me-3">
-      Crédits : {{ user.credits }}
+    <span class="navbar-text me-3" v-if="credits !== null">
+      Crédits : {{ credits }}
     </span>
   </nav>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { store } from '@/store.js'
+import { getUserCredits } from '@/API/historique.js'
 
-// Accès direct aux données du store
+const route = useRoute()
 const user = computed(() => store.data)
+const credits = ref(null)
+
+const loadCredits = async () => {
+  if (user.value.id) {
+    try {
+      const response = await getUserCredits(user.value.id)
+      credits.value = response.credits ?? 0
+    } catch (err) {
+      console.error('Erreur lors du chargement des crédits :', err)
+      credits.value = 0
+    }
+  }
+}
+
+// Recharge les crédits à chaque changement de route si l'utilisateur est connecté
+watch(
+  () => route.fullPath,
+  async () => {
+    if (user.value.acces >= 1) {
+      await loadCredits()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>

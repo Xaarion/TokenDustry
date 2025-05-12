@@ -43,8 +43,8 @@
 import { ref } from 'vue';
 import { store } from '../store.js';
 import { useRouter } from 'vue-router';
-import { loginUser, getUserCredits } from '@/API/authentification.js'; // Utilisation de ton API propre
-
+import { loginUser } from '@/API/utilisateurs.js'; 
+import { getUserCredits } from '@/API/historique.js'; 
 const identif = ref('');
 const mdp = ref('');
 const erreur = ref('');
