@@ -1,126 +1,139 @@
 <template>
-    <div class="">
-             <h1>Création d'offre</h1>
-             <form>
-               <fieldset>
-                 
-                 <div class="form-group">
-                   <label for="password">Entrez la Crypto a vendre</label>
-                   <input type="text" class="form-control" id="email" placeholder="Nom exact de la crypto" v-model="cryptoLibelle">
-                 </div>
+  <div>
+    <h1>Création d'offre</h1>
+    <form @submit.prevent="handleCreateOffer">
+      <fieldset>
+        <div class="form-group">
+          <label for="crypto">Crypto à vendre</label>
+          <select
+            id="crypto"
+            class="form-control"
+            v-model="selectedCryptoId"
+            required
+          >
+            <option disabled value="">-- Choisissez une cryptomonnaie --</option>
+            <option
+              v-for="crypto in userCryptos"
+              :key="crypto.id"
+              :value="crypto.id"
+            >
+              {{ crypto.libelle }} ({{ crypto.quantite }} dispo)
+            </option>
+          </select>
+        </div>
 
-                 <div class="form-group">
-                   <label for="pseudo">Entrez le nombre de cypto a vendre ?</label>
-                   <input type="number" class="form-control" id="pseudo" placeholder="Montant" v-model="montant">
-                 </div>       
-                 
-                 <div class="form-group">
-                   <label for="pseudo">Entrez le prix</label>
-                   <input type="number" class="form-control" id="pseudo" placeholder="prix" v-model="prixUnitaire">
-                 </div>       
-                
-              </fieldset>
-              <div style="margin-bottom: 40px;"></div>
-              <button type="button" class="btn btn-primary" @click="creationOffre">Créer </button>
-             </form>
-         </div>
+        <div class="form-group">
+          <label for="amount">Quantité à vendre</label>
+          <input
+            type="number"
+            id="amount"
+            class="form-control"
+            v-model.number="amount"
+            min="0.0001"
+            step="0.0001"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="price">Prix unitaire</label>
+          <input
+            type="number"
+            id="price"
+            class="form-control"
+            v-model.number="unitPrice"
+            min="0.01"
+            step="0.01"
+            required
+          />
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary mt-3" :disabled="isLoading">
+        {{ isLoading ? "Création..." : "Créer" }}
+      </button>
+
+      <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
+    </form>
+  </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { store } from '@/store.js';
+import { createOffer } from '@/API/offres.js';
+import { getCryptoById, subtractCrypto } from '@/API/crypto.js';
+import { getUserCryptos } from '@/API/posseder.js';
 
-import { store } from "../store.js";
-import axios from 'axios';
+const router = useRouter();
 
-export default {
-  name: "CrytpoCreationForm",
+const userCryptos = ref([]);
+const selectedCryptoId = ref('');
+const amount = ref(0);
+const unitPrice = ref(0);
+const errorMessage = ref('');
+const isLoading = ref(false);
 
-  data() {
-    return {
-      dataStore: store,
-      id: 0,
-      crypto: 0,
-      cryptoLibelle:"",
-      montant: "",
-      prixUnitaire: "",
-      possede: 0,
-      cryptoExiste: 0,
-      combienCrypto: 0,
-    };
-  },
+onMounted(async () => {
+  try {
+    const cryptos = await getUserCryptos(store.data.id);
+    userCryptos.value = cryptos.filter(c => c.quantite > 0);
 
-  methods: {
-
-   async creationOffre(){
-    this.combienCrypto =0;
-    this.possede = 0;
-    this.cryptoExiste = 0;
-    
- const response = await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ 
-      this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp)
-   
-          this.id = response.data[0].id
-
-
-
-        await axios.get('https://apitokendustry.alwaysdata.net/cryptoIdForLib?lib='+this.cryptoLibelle).then(
-        response => {
-          if(response.data.length != 0){
-          this.crypto = response.data[0].id}
-          else{alert("Cette Crypto n'existe pas ");}
-      
-          this.cryptoExiste = response.data.length 
-        })
-
-        if(this.cryptoExiste != 0){
-        await axios.get('https://apitokendustry.alwaysdata.net/peutVendreCrypto?id='+ 
-        this.id + 
-        '&idCrypto=' + this.crypto+ 
-        '&montant=' + this.montant
-        ).then(
-      response => {this.possede = response.data[0].possede
-      console.log(response.data[0].possede)
-      this.combienCrypto = response.data[0].quantite})
-  
-    if (this.possede > 0) {
-
-      axios.put('https://apitokendustry.alwaysdata.net/crypTransaction/' + this.id, {
-        quantite: (this.combienCrypto - this.montant),
-        crypto: this.crypto
-  })
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
-await axios.post('https://apitokendustry.alwaysdata.net/createOffre', {
-  vendeur: this.id,
-  crypto: this.crypto,
-  montant: this.montant,
-  prixUnitaire: this.prixUnitaire,
-
-})
-.then(response => {
-  console.log(response.data); 
-})
-.catch(error => {
-  console.error(error);
+    console.log(userCryptos)
+  } catch (err) {
+    console.error(err);
+    errorMessage.value = "Impossible de charger les cryptomonnaies.";
+  }
 });
 
-alert("Offre crée avec succès !");
-this.$router.push('/OffreView')
-}
+const handleCreateOffer = async () => {
+  errorMessage.value = '';
+
+  if (!selectedCryptoId.value || amount.value <= 0 || unitPrice.value <= 0) {
+    errorMessage.value = 'Veuillez remplir correctement tous les champs.';
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    const crypto = await getCryptoById(selectedCryptoId.value);
+    if (!crypto?.id) {
+      errorMessage.value = "Cryptomonnaie invalide.";
+      return;
+    }
+
+    const userCrypto = userCryptos.value.find(c => c.id === selectedCryptoId.value);
+    if (!userCrypto || amount.value > userCrypto.quantite) {
+      errorMessage.value = "Quantité insuffisante.";
+      return;
+    }
+
+    await subtractCrypto(store.data.id, crypto.id, amount.value);
+
+    await createOffer({
+  montant: amount.value,
+  prix: unitPrice.value,
+  utilisateur: { id: store.data.id },
+  cryptomonnaie: { id: selectedCryptoId.value }
+});
 
 
-else{
 
-  alert("Vous ne possedez pas assez Crypto");
-
-}
-}
-},
-
-},
-}
+    alert("Offre créée avec succès !");
+    router.push('/OffreView');
+  } catch (err) {
+    console.error(err);
+    errorMessage.value = "Une erreur est survenue lors de la création de l'offre.";
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
+
+<style scoped>
+.text-danger {
+  color: red;
+}
+</style>

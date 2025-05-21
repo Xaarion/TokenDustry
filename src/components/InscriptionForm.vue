@@ -39,6 +39,7 @@ import { useRouter } from 'vue-router';
 import { store } from '@/store.js';
 import { checkIfUserExists, createUser, loginUser } from '@/API/utilisateurs.js';
 
+
 const identif = ref('');
 const mdp = ref('');
 const pseudo = ref('');
@@ -52,23 +53,25 @@ const insc = async () => {
   try {
     const exists = await checkIfUserExists(mail.value, identif.value);
 
-if (exists) {
+if (exists === true) {
   erreur.value = "L'email ou l'identifiant est déjà utilisé.";
   return;
 }
 
-    await createUser({
-      identifiant: identif.value,
-      password: mdp.value,
-      mail: mail.value,
-      pseudonyme: pseudo.value,
-      acces: 1 // Accès par défaut
-    });
+await createUser({
+  identifiant: identif.value,
+  password: mdp.value,
+  mail: mail.value,
+  pseudonyme: pseudo.value
+});
 
+    console.log("CA A BIEN CRÉE")
     const user = await loginUser(identif.value, mdp.value);
     store.data.id = user.id;
     store.data.ident = user.identifiant;
     store.data.acces = user.acces;
+
+    console.log("CA A BIEN LOG")
 
     alert("Compte créé avec succès !");
     router.push('/');
