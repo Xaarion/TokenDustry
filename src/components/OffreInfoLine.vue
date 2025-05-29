@@ -1,216 +1,96 @@
 <template>
-  <div class="row" style="height: 80px;">
-<div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Crypto : {{ crypto }}</div>
-<div class="col-3" style="font-size:40px; line-height: 80px; font-weight: bold;">Combien : {{ offre.montant }}</div>
-<div class="col-2" style="font-size:35px; line-height: 80px; font-weight: bold;">Prix : {{ offre.prix }}</div>
-<div class="col-3" style="font-size:30px; line-height: 80px; font-weight: bold;">Vendeur : {{ vendeur }}</div>
-<div class="col-1" style="font-size:30px; line-height: 80px; font-weight: bold;"><button class="btn btn-primary" @click="achat">BUY</button></div>
+  <div class="offer-line">
+    <div class="col crypto">Crypto : {{ crypto?.libelle || '...' }}</div>
+    <div class="col">Combien : {{ offre.montant }}</div>
+    <div class="col">Prix : {{ offre.prix }}</div>
+    <div class="col">Vendeur : {{ vendeurName || '...' }}</div>
+    <div class="col btn-col">
+      <button class="btn btn-primary" @click="handleBuy">BUY</button>
+    </div>
   </div>
-  <div class="row" style="height: 2px; background-color: red; margin-left: 0 !important;"></div>
+  <div class="separator"></div>
 </template>
 
-<script>
+<script setup>
+import { ref, watchEffect } from 'vue';
+import { store } from '@/store.js';
+import { effectuerAchat } from '@/API/offres.js';
+import { getCryptoById } from '@/API/crypto.js';
+import { getUserPseudoById } from '@/API/utilisateurs.js';
 
-import { store } from "../store.js";
-import axios from "axios";
+const props = defineProps({ offre: Object });
+const emit = defineEmits(['achat-effectue']);
 
-export default {  
-  name: "OffreInfoLine",
+const crypto = ref(null);
+const vendeurName = ref('');
 
-  props: {
-    offre: Object,
-  },
+watchEffect(async () => {
+  const userId = props.offre?.utilisateur?.id;
+  const cryptoId = props.offre?.cryptomonnaie?.id;
 
-  data() {
-    return {
-    dataStore: store,
-    vendeur: "",
-     crypto: "",
-     assezDeCredits: 0,
-     id: 0,
-     money:0,
-     cryptoAcheteur: 0,
-     assez : 0,
-    };
-  },
+  if (!userId || !cryptoId) return;
 
-  mounted() {
-  this.getCrypto();
-  this.getCreateur();
-  },
+  try {
+    console.log("OFFRE REÇUE :", props.offre);
+    const [vendeur, cryptoData] = await Promise.all([
+      getUserPseudoById(userId),
+      getCryptoById(cryptoId),
+    ]);
 
-  methods: {
-    
-    
-
-    async getCrypto() {
-
-
-
-      await axios.get('https://apitokendustry.alwaysdata.net/cryptoLibForId?id='+ 
-      this.offre.crypto).then(
-        response => {
-          this.crypto = response.data[0].libelle
-
-        })
-    },
-
-    async achat() {
-
-      this.assezDeCredits = 0;
-      this.id = 0;
-      this.money = 0;
-      this.cryptoAcheteur= 0;
-      this.assez = 1;
-
-      await axios.get('https://apitokendustry.alwaysdata.net/connect?identif='+ 
-      this.dataStore.data.ident+'&mdp='+this.dataStore.data.mdp).then(
-        response => {
-          this.id = response.data[0].id
-        })
-
-
-if(this.id == this.offre.vendeur){
-
-  alert("Vous ne pouvez pas acheter vôtre propore offre !")
-}
-
-else{
-
-
-
-  await axios.get('https://apitokendustry.alwaysdata.net/possedeAssezDeCredits?id='+ 
-this.id+'&montant='+this.offre.prix).then(
-  response => {
-    this.assezDeCredits = response.data[0].possede
-  })
-console.log("Ai-je assez ? -> " + this.assezDeCredits)
-
-
-
-
-if (this.assezDeCredits > 0){
-
-  await axios.get('https://apitokendustry.alwaysdata.net/credits?id='+ 
-this.id).then(
-  response => {
-    this.money = response.data[0].credits
-  })
-
-
-  await axios.post('https://apitokendustry.alwaysdata.net/changeBalance', {
-      id: this.id,
-      credits: (this.money - this.offre.prix)
-})
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error(error);
-});
-
-
-
-await axios.get('https://apitokendustry.alwaysdata.net/credits?id='+ 
-this.offre.vendeur).then(
-  response => {
-    this.money = response.data[0].credits
-  })
-
-
-  await axios.post('https://apitokendustry.alwaysdata.net/changeBalance', {
-      id: this.offre.vendeur,
-      credits: (this.money + this.offre.prix)
-})
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error(error);
-});
-
-
-
-await axios.get('https://apitokendustry.alwaysdata.net/cryptoPossede?idUser='+this.id+'&idCrypto='+this.offre.crypto).then(
-  response => {
-
-    if (response.data.length > 0){
-    this.cryptoAcheteur = response.data[0].quantite
-    console.log("historique de crypto déja éxistant !")
+    vendeurName.value = vendeur;
+    crypto.value = cryptoData;
+    console.log("PSEUDO =", vendeurName.value);
+  } catch (e) {
+    console.error("Erreur lors du chargement de l'offre :", e);
   }
-
-else {
-  this.assez = 0;
-  console.log("pas d'historique de crypto, création en cour...")
-}})
-
-if(this.assez > 0){
-
-  console.log("incrémentations...")
-  //console.log((this.cryptoAcheteur + this.offre.montant)+","+ this.cryptoAcheteur +","+this.montant)
-  axios.put('https://apitokendustry.alwaysdata.net/crypTransaction/' + this.id, {
-        quantite: (this.cryptoAcheteur + this.offre.montant),
-        crypto: this.offre.crypto
-  })
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
-}
-
-else {
-
-  await axios.post('https://apitokendustry.alwaysdata.net/createCryptoPossess', {
-  id: this.id,
-  id_Cryptomonnaies: this.offre.crypto,
-  quantite: this.offre.montant,
-
-})
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error(error);
 });
 
-}
-
-
-await axios.delete("https://apitokendustry.alwaysdata.net/deleteOffre/"+this.offre.id)
-        .then((response) => {
-          this.cryptos = response.data;
-        });
-
-
-        this.$emit('achat-effectue');
-
-alert("Achat effectué avec succès !");
-
-
-
-
+const handleBuy = async () => {
+  try {
+    const result = await effectuerAchat(props.offre, store.data);
+    if (result.success) {
+      emit('achat-effectue');
+      alert("Achat effectué avec succès !");
+    } else {
+      alert(result.message);
+    }
+  } catch (err) {
+    console.error("Erreur lors de l'achat :", err);
+    alert("Une erreur est survenue pendant l'achat.");
   }
-
-}}
-,
-
-    async getCreateur () {
-      await axios.get('https://apitokendustry.alwaysdata.net/userForId?idUser='+ 
-      this.offre.vendeur).then(
-        response => {
-          this.vendeur = response.data[0].identifiant
-        })
-      },
-
-
-
-    
-
-}
 };
 </script>
 
+<style scoped>
+.offer-line {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0 10px;
+}
 
+.col {
+  flex: 1;
+  line-height: 80px;
+  padding: 0 10px;
+}
+
+.crypto {
+  flex: 1.5;
+}
+
+.btn-col {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.separator {
+  height: 2px;
+  background-color: red;
+  margin: 0;
+}
+</style>

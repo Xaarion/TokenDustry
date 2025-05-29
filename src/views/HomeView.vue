@@ -1,6 +1,8 @@
 <template>
   <div class="home-container">
-    <div class="sidebar"></div>
+    <div class="sidebar">
+
+    </div>
 
     <div class="content">
       <div v-for="crypto in cryptos" :key="crypto.id" class="crypto-row">

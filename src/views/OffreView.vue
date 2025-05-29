@@ -1,71 +1,96 @@
 <template>
-  <div class="row" style="margin-right: 0 !important">
-    <div class="col-2" style="height: 800px; background-color: grey"></div>
-
-    <div class="col-10" style="padding-right: 0 !important">
-
-      <div v-for="currentoffre in offres" :key="currentoffre.id">
-
-        <div class="row" style="margin-right: 0 !important">
-
-          <OffreInfoLine :offre=currentoffre @achat-effectue="getOffres"></OffreInfoLine>
-            
-        </div>
-        
-      </div>
-
+  <div class="offres-view">
+    <div class="sidebar">
+            <label class="form-check-label text-white mx-2">
+  <input type="checkbox" v-model="afficherMesOffres" class="form-check-input" />
+  Voir mes offres
+</label>
     </div>
+    <main class="content">
+      <div v-if="loading" class="loading">Chargement...</div>
+      <div v-else>
+        <OffreInfoLine
+          v-for="offre in offres"
+          :key="offre.id"
+          :offre="offre"
+          @achat-effectue="chargerOffres"
+        />
+      </div>
+    </main>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
+<script setup>
+import { ref, watch, onMounted  } from 'vue';
+import { useRouter } from 'vue-router';
+import { store } from '@/store.js';
+import OffreInfoLine from '@/components/OffreInfoLine.vue';
+import { getAllOffres } from '@/API/offres.js';
 
-import OffreInfoLine from "@/components/OffreInfoLine.vue";
-import { store } from "../store.js";
-import axios from "axios";
+const router = useRouter();
+const offres = ref([]);
+const loading = ref(true);
+const afficherMesOffres = ref(false);
 
-export default {
-  name: "OffreView",
-  components: {
-    OffreInfoLine,
-  },
+watch(afficherMesOffres, (val) => {
+  store.data.afficherMesOffres = val;
+});
 
-  data() {
-    return {
-      dataStore: store,
-      offres: [],
-    };
-  },
+const chargerOffres = async () => {
+  loading.value = true;
 
-  mounted() {
-    if(this.dataStore.data.acces < 1) {this.$router.push('/')}else{this.getOffres();}
-    
+  try {
+    const data = await getAllOffres();
 
-  },
+    if (!Array.isArray(data)) {
+      console.warn("Les données reçues ne sont pas un tableau :", data);
+      return;
+    }
 
-  methods: {
-    async getOffres() {
-      await axios
-        .get("https://apitokendustry.alwaysdata.net/offres")
-        .then((response) => {
-          this.offres = response.data;
-        });
+    const filtered = afficherMesOffres.value
+      ? data
+      : data.filter(offre => offre.utilisateur.id !== store.data.id);
 
-      console.log(this.offres);
+    offres.value = filtered;
 
-      const resp = await axios
-          .get("https://apitokendustry.alwaysdata.net/credits?id=" + this.dataStore.data.id)
-          this.dataStore.data.credits = resp.data[0].credits;
-
-
-
-
-    },
-
-
-
-  
-  },
+  } catch (e) {
+    console.error("Erreur lors du chargement des offres :", e);
+  } finally {
+    loading.value = false;
+  }
 };
+
+onMounted(() => {
+  if (store.data.acces < 1) {
+    router.push('/');
+    return;
+  }
+
+  watch(() => afficherMesOffres.value, () => {
+    chargerOffres();
+  });
+
+  // Charge une première fois
+  chargerOffres();
+});
 </script>
+
+<style scoped>
+.offres-view {
+  display: flex;
+}
+.sidebar {
+  width: 16.6666%; /* col-2 */
+  background-color: grey;
+  height: 100vh;
+}
+.content {
+  width: 83.3333%; /* col-10 */
+  padding-right: 0;
+}
+.loading {
+  padding: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+</style>

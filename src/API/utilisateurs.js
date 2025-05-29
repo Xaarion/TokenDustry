@@ -17,5 +17,10 @@ export async function checkIfUserExists(mail, identif) {
 export async function createUser(user) {
   const response = await api.post('/utilisateurs', user);
   return response.data;
+} 
+
+export async function getUserPseudoById(id) {
+  const response = await api.get(`/utilisateurs/pseudo/id/${id}`);
+  return response.data;
 }
 
